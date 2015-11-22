@@ -11,7 +11,7 @@ class Movie:
     Raises ValueError for invalid parameters.
     """
     def __init__(self, title, description, movie_type):
-        self.ID = Movie.___counter
+        self._ID = Movie.___counter
         self._title = title
         self._description = description
         self._movie_type = movie_type
@@ -39,14 +39,33 @@ class Movie:
     Returns the type.
     """
     def getType(self):
-        return self.movie_type
+        return self._movie_type
+
+    """
+    Sets the title.
+    """
+    def setTitle(self, title):
+        self._title = title
+
+    """
+    Sets the description.
+    """
+    def setDescription(self, description):
+        self._description = description
+
+    """
+    Sets the type.
+    """
+    def setType(self, movie_type):
+        self._movie_type = movie_type
 
     """
     Returns string representation of movie.
     """
     def __str__(self):
         s = ""
-        s += "ID: " + self._ID
-        s += "Title: " + self._title
-        s += "Description: " + self._description
+        s += "ID: " + str(self._ID) + '\n'
+        s += "Title: " + self._title + '\n'
+        s += "Description: " + self._description + '\n'
         s += "Type: " + self._movie_type + '\n'
+        return s

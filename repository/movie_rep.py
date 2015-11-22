@@ -1,16 +1,30 @@
-from domain.movie import *
 from repository.repository_base import *
 
-class MovieRep:
+class MovieRep(Repository):
     """
     Repository for movie.
     """
     def __init__(self):
         Repository.__init__(self)
 
-    def update_movie(self, ID, title, description, movie_type):
+    """
+    Searches a movie by title.
+    """
+    def search_title(self, title):
         for x in self.data:
-            if x.ID == ID:
-                x.title = title
-                x.description = description
-                x.movie_type = movie_type
+            if x.getTitle() == title:
+                return x
+        return None
+
+    """
+    Updates a movie by id.
+    """
+    def update_movie(self, ID, title, description, movie_type):
+        try:
+            for x in self.data:
+                if x.getID() == int(ID):
+                    x.setTitle(title)
+                    x.setDescription(description)
+                    x.setType(movie_type)
+        except:
+            raise ValueError("Invalid id!")

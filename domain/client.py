@@ -11,9 +11,9 @@ class Client:
     Raises ValueError for invalid parameters.
     """
     def __init__(self, name, CNP):
-        self.ID = Client.___counter
-        self._name = name
-        self._CNP = CNP
+        self._ID = Client.___counter
+        self.setName(name)
+        self.setCNP(CNP)
         Client.___counter += 1
 
     """
@@ -35,11 +35,26 @@ class Client:
         return self._CNP
 
     """
+    Sets the name.
+    """
+    def setName(self, name):
+        self._name = name
+
+    """
+    Sets the cnp.
+    """
+    def setCNP(self, CNP):
+        if len(CNP) == 10:
+            self._CNP = CNP
+        else:
+            raise ValueError("Invalid CNP!")
+
+    """
     Returns string representation of client.
     """
     def __str__(self):
         s = ""
-        s += "ID: " + self._ID
-        s += "Name: " + self._name
-        s += "CNP: " + self._CNP
-
+        s += "ID: " + str(self._ID) + '\n'
+        s += "Name: " + self._name + '\n'
+        s += "CNP: " + self._CNP + '\n'
+        return s
