@@ -4,8 +4,9 @@ class ClientController:
     """
     Controller for clients.
     """
-    def __init__(self, client_rep, rental_rep):
+    def __init__(self, client_rep, rental_rep, undo_controller):
         self._client_rep = client_rep
+        self._undo_controller = undo_controller
 
     """
     Executes the given command.

@@ -17,6 +17,12 @@ class Client:
         Client.___counter += 1
 
     """
+    Sets the ID.
+    """
+    def setID(self, newID):
+        self._ID = newID
+
+    """
     Returns the ID.
     """
     def getID(self):

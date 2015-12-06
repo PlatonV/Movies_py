@@ -5,26 +5,37 @@ from controller.command import Command
 from controller.movie_controller import MovieController
 from controller.client_controller import ClientController
 from controller.rental_controller import RentalController
+from controller.undo_controller import UndoController
 
 def parse_command(command_str):
     split_cmd = command_str.split(' ')
     cmd_type = split_cmd[0]
     cmd_params = split_cmd[2:len(split_cmd)]
-    return Command(cmd_type, cmd_params)
+    return Command(cmd_type, cmd_params, split_cmd[1])
 
 def run():
     movie_rep = MovieRep()
     client_rep = ClientRep()
     rental_rep = RentalRep()
-    movie_controller = MovieController(movie_rep, rental_rep)
-    client_controller = ClientController(client_rep, rental_rep)
-    rental_controller = RentalController(rental_rep, movie_controller, client_controller)
+    undo_controller = UndoController()
+    movie_controller = MovieController(movie_rep, rental_rep, undo_controller)
+    client_controller = ClientController(client_rep, rental_rep, undo_controller)
+    rental_controller = RentalController(rental_rep, movie_controller, client_controller, undo_controller)
+    undo_controller.setMovieController(movie_controller)
+    undo_controller.setClientController(client_controller)
+    undo_controller.setRentalController(rental_controller)
     while True:
         try:
             print("> ", end='')
             command_str = input()
             if command_str == 'quit':
                 break
+            elif command_str == "undo":
+                undo_controller.undo()
+                continue
+            elif command_str == "redo":
+                undo_controller.redo()
+                continue
             split_cmd = command_str.split(' ')
             command_destination = split_cmd[1]
             command = parse_command(command_str)

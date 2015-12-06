@@ -4,10 +4,11 @@ class RentalController:
     """
     Controller for rentals.
     """
-    def __init__(self, rental_rep, movie_controller, client_controller):
+    def __init__(self, rental_rep, movie_controller, client_controller, undo_controller):
         self._rental_rep = rental_rep
         self._movie_controller = movie_controller
         self._client_controller = client_controller
+        self._undo_controller = undo_controller
 
     """
     Executes the given command.
