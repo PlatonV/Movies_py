@@ -18,3 +18,10 @@ class RentalRep(Repository):
             return "Not rented"
         except:
             raise ValueError("Invalid id!")
+
+    def __str__(self):
+        s = ""
+        for x in self.data:
+            if x.valid == 1:
+                s += str(x)
+        return s

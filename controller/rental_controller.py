@@ -4,11 +4,15 @@ class RentalController:
     """
     Controller for rentals.
     """
-    def __init__(self, rental_rep, movie_controller, client_controller, undo_controller):
+    def __init__(self, rental_rep, undo_controller):
         self._rental_rep = rental_rep
-        self._movie_controller = movie_controller
-        self._client_controller = client_controller
         self._undo_controller = undo_controller
+
+    def setMC(self, movie_controller):
+        self._movie_controller = movie_controller
+
+    def setCC(self, client_controller):
+        self._client_controller = client_controller
 
     """
     Executes the given command.
@@ -28,19 +32,24 @@ class RentalController:
     Updates rentals according to changes in client rep and movie repo.
     """
     def update(self):
-        pass
+        for x in self._rental_rep.data:
+            print(str(x.valid))
+            if self._movie_controller.search_movie(x.movieID) == None or self._client_controller.search_client(x.clientID) == None:
+                x.setInvalid()
+            else:
+                x.setValid()
 
     """
     Adds rental with given client and movie.
     """
     def _add_rental(self, clientID, movieID):
-        self._rental_rep.add(Rental(self._client_controller.search_client(clientID), self._movie_controller.search_movie(movieID)))
+        self._rental_rep.add(Rental(clientID, movieID))
 
     """
     Removes rental with id rental_id.
     """
     def _remove_rental(self, rental_id):
-        self._rental_rep.remove_id(rental_id)
+        self._rental_rep.search_id(rental_id).setReturned()
 
     """
     Returns a rental by rental_id.

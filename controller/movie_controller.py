@@ -47,6 +47,7 @@ class MovieController:
     def add_movie(self, title, description, movie_type):
         movie = Movie(title, description, movie_type)
         self._movie_rep.add(movie)
+        self._rental_controller.update()
         return movie
 
     """
@@ -54,6 +55,7 @@ class MovieController:
     """
     def change_id(self, oldID, newID):
         self._movie_rep.change_id(oldID, newID)
+        self._rental_controller.update()
 
     """
     Removes movie with id movie_id.
@@ -62,6 +64,7 @@ class MovieController:
     def remove_movie(self, movie_id):
         movie = deepcopy(self.search_movie(movie_id))
         self._movie_rep.remove_id(movie_id)
+        self._rental_controller.update()
         return movie
 
     """

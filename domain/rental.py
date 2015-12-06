@@ -9,13 +9,16 @@ class Rental:
     """
     Rental constructor.
     """
-    def __init__(self, client, movie):
+    def __init__(self, clientID, movieID):
         self._ID = Rental.___counter
-        self.movie = movie
-        self.client = client
+        self.movieID = movieID
+        self.clientID = clientID
         self._status = "Rented"
         self.valid = 1
         Rental.___counter += 1
+
+    def getID(self):
+        return self._ID
 
     """
     Sets rental as invalid.
@@ -47,7 +50,7 @@ class Rental:
     def __str__(self):
         s = ""
         s += "ID: " + str(self._ID) + '\n'
-        s += "MovieID: " + str(self.movie.getID()) + '\n'
-        s += "ClientID: " + str(self.client.getID()) + '\n'
+        s += "MovieID: " + str(self.movieID) + '\n'
+        s += "ClientID: " + str(self.clientID) + '\n'
         s += "Status: " + self._status + '\n'
         return s

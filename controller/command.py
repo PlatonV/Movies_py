@@ -10,7 +10,7 @@ class Command:
     """
     def __init__(self, cmd_type, params, destination):
         self._destination = destination
-        if cmd_type in ['add', 'remove', 'update', 'list']:
+        if cmd_type in ['add', 'remove', 'update', 'list', 'rent', 'return']:
             self._type = cmd_type
         else:
             raise ValueError("Unrecognized command!")
