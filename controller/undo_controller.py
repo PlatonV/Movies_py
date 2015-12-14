@@ -13,7 +13,7 @@ class UndoController:
     def __init__(self):
         self.history_index = -1
         self.command_history = []
-    
+
     def setMovieController(self, ctrl):
         self._movie_controller = ctrl
 
@@ -28,6 +28,7 @@ class UndoController:
         self.history_index += 1
         self.command_history = self.command_history[:self.history_index + 1]
 
+
     def undo(self):
         if self.history_index >= 0:
             cmd = self.command_history[self.history_index]
@@ -37,6 +38,12 @@ class UndoController:
                 if cmd.getType() == "remove":
                     movie = self._movie_controller.add_movie(cmd.getObj().getTitle(), cmd.getObj().getDescription(), cmd.getObj().getType())
                     self._movie_controller.change_id(movie.getID(), cmd.getObj().getID())
+            if cmd.getDest() == "client":
+                if cmd.getType() == "add":
+                    self._client_controller.remove_client(cmd.getObj().getID())
+                if cmd.getType() == "remove":
+                    client = self._client_controller.add_movie(cmd.getObj().getName(), cmd.getObj().getCNP())
+                    self._client_controller.change_id(client.getID(), cmd.getObj().getID())
                 self.history_index -= 1
         else:
             raise ValueError("Nothing to undo!")

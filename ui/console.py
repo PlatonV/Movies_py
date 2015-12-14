@@ -58,5 +58,5 @@ def run():
                     rental_controller.executeCommand(command)
         except ValueError as e:
             print(e)
-        except IndexError:
-            print("Invalid parameters!")
+        except:
+            print("Invalid commmand!")

@@ -14,12 +14,12 @@ class ClientController:
     def executeCommand(self, command):
         if command.getType() == "add":
             if len(command.getParams()) == 2:
-                self._add_client(command.getParams()[0], command.getParams()[1])
+                command.setObj(self._add_client(command.getParams()[0], command.getParams()[1]))
             else:
                 raise ValueError("Invalid parameters")
         elif command.getType() == "remove":
             if len(command.getParams()) == 1:
-                self._remove_client(command.getParams()[0])
+                command.setObj(self._remove_client(command.getParams()[0]))
             else:
                 raise ValueError("Invalid parameters")
         elif command.getType() == "update":
@@ -34,17 +34,33 @@ class ClientController:
                 raise ValueError("Invalid parameters")
         elif command.getType() == "list":
             return str(self._client_rep)
+        if command.getType() in ["add", "remove"]:
+            self._undo_controller.recordCommand(command)
+
     """
     Adds client with given name and CNP.
     """
     def _add_client(self, name, CNP):
-        self._client_rep.add(Client(name, CNP))
+        client = Client(name, CNP)
+        self._client_rep.add(client)
+        self._rental_controller.update()
+        return client
+
+    """
+    Changes id of a client.
+    """
+    def change_id(self, oldID, newID):
+        self._client_rep.change_id(oldID, newID)
+        self._rental_controller.update()
 
     """
     Removes client with id client_id.
     """
     def _remove_client(self, client_id):
+        client = deepcopy(self.search_client(client_id))
         self._client_rep.remove_id(client_id)
+        self._rental_controller.update()
+        return client
 
     """
     Returns a client by client_data.
@@ -53,7 +69,7 @@ class ClientController:
     def search_client(self, client_data):
         result = self._client_rep.search_id(client_data)
         if result == None:
-            result = self._client_rep.search_title(client_data)
+            result = self._client_rep.search_name(client_data)
         return result
 
     """

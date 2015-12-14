@@ -33,8 +33,7 @@ class RentalController:
     """
     def update(self):
         for x in self._rental_rep.data:
-            print(str(x.valid))
-            if self._movie_controller.search_movie(x.movieID) == None or self._client_controller.search_client(x.clientID) == None:
+            if (self._movie_controller.search_movie(x.movieID) == None) or (self._client_controller.search_client(x.clientID) == None):
                 x.setInvalid()
             else:
                 x.setValid()

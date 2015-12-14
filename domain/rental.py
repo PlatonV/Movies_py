@@ -30,7 +30,7 @@ class Rental:
     Sets rental as valid.
     """
     def setValid(self):
-        self._valid = 1
+        self.valid = 1
 
     """
     Sets status as "Rented".
